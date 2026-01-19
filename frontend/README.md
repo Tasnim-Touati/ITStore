@@ -1,4 +1,4 @@
-# 🎨 Frontend - Shopping Application
+# 🎨 Frontend - ITStore
 
 React-based frontend for the e-commerce shopping application with modern UI/UX and state management.
 
