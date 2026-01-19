@@ -1,4 +1,4 @@
-# 🛒 E-Commerce Backend API
+# 🛒 ITStore Backend API
 
 [![Node.js](https://img.shields.io/badge/Node.js-v18+-green.svg)](https://nodejs.org/)
 [![Express](https://img.shields.io/badge/Express-v5.2+-blue.svg)](https://expressjs.com/)
