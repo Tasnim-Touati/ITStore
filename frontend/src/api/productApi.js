@@ -1,33 +1,31 @@
 // src/api/productApi.js
-import axios from "axios";
+import axiosClient from "./axiosClient";
 
-const API_URL = "http://localhost:3001/api/products";
-
-/**
- * Fetches the list of all products from the backend
- * @returns {Promise<Array>} Array of products
- */
+// Fetches the list of all products from the backend
 export const fetchProducts = async () => {
+  // Added async keyword to allow await usage
   try {
-    const res = await axios.get(API_URL);
+    const res = await axiosClient.get("/products"); // await ; pauses execution until the request completes
     return res.data;
   } catch (error) {
-    console.error("Error fetching products:", error.response?.data || error.message);
+    console.error(
+      "Error fetching products:",
+      error.response?.data || error.message,
+    );
     throw error;
   }
 };
 
-/**
- * Fetches a single product by ID
- * @param {number} id - Product ID
- * @returns {Promise<Object>} Product object
- */
+// Fetches a single product by ID
 export const fetchProductById = async (id) => {
   try {
-    const res = await axios.get(`${API_URL}/${id}`);
+    const res = await axiosClient.get(`/products/${id}`);
     return res.data;
   } catch (error) {
-    console.error("Error fetching product:", error.response?.data || error.message);
+    console.error(
+      "Error fetching product:",
+      error.response?.data || error.message,
+    );
     throw error;
   }
 };

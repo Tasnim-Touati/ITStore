@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { CartContext } from "./CartContext";
 
+// Component setup
 /**
  * Provides cart state and actions to the app via context.
  * Wrap your app/components with <CartProvider> to access cart via useCart().
@@ -9,6 +10,7 @@ import { CartContext } from "./CartContext";
 const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]); // Array of cart items
 
+  // The cart functions
   /**
    * Add a product to the cart
    * If it already exists, increase quantity by 1
@@ -19,20 +21,25 @@ const CartProvider = ({ children }) => {
 
       if (existing) {
         // Update quantity if product already in cart
-        return prev.map((p) =>
-          p.id === product.id ? { ...p, quantity: p.quantity + 1 } : p,
+        return prev.map(
+          (
+            p, // loop through previous cart items
+          ) =>
+            p.id === product.id // find the matching product in cart
+              ? { ...p, quantity: p.quantity + 1 } // Increase quantity (...p copies other properties)
+              : p, // Keep other products unchanged
         );
       }
 
       // Add new product to cart with quantity 1
       return [
-        ...prev,
+        ...prev, //keep existing items
         {
           id: product.id,
           name: product.name,
           price: product.price,
           image: product.image,
-          quantity: 1,
+          quantity: 1, // New item starts with quantity 1
         },
       ];
     });
@@ -43,6 +50,7 @@ const CartProvider = ({ children }) => {
    */
   const removeFromCart = (productId) => {
     setCart((prev) => prev.filter((item) => item.id !== productId));
+    // Filter out the item with matching productId
   };
 
   /**
@@ -69,17 +77,18 @@ const CartProvider = ({ children }) => {
     setCart([]);
   };
 
+  // Provide cart state and actions to children components
   return (
     <CartContext.Provider
       value={{
-        cart,
-        addToCart,
-        removeFromCart,
-        updateQuantity,
-        clearCart,
+        cart, // The cart array
+        addToCart, // Function to add items
+        removeFromCart, // Function to remove items
+        updateQuantity, // Function to update quantities
+        clearCart, // Function to clear cart
       }}
     >
-      {children}
+      {children} {/* any component inside children can access cart context */}
     </CartContext.Provider>
   );
 };

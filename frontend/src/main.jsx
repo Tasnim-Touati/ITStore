@@ -1,6 +1,6 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
+import { StrictMode } from "react"; // enables additional checks and warnings for React components
+import { createRoot } from "react-dom/client"; //connects react to the html
+import { BrowserRouter } from "react-router-dom"; //enables navigation between different pages without full page reloads
 import { Toaster } from "react-hot-toast";
 import CartProvider from "./store/CartProvider";
 import App from "./App";
@@ -8,11 +8,13 @@ import "./main.css";
 
 // Render the app with CartProvider and Toaster for notifications
 createRoot(document.getElementById("root")).render(
+  // look in the loaded html for the element with id root and render the following inside it
   <StrictMode>
     <BrowserRouter>
       <CartProvider>
+        {" "}
+        {/* provides cart state to the app */}
         <App />
-
         {/* Toast notification container */}
         <Toaster
           position="top-right"

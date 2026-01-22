@@ -1,3 +1,4 @@
+// src/App.jsx
 import { Routes, Route } from "react-router-dom";
 import ProductListPage from "./pages/ProductListPage";
 import CartPage from "./pages/CartPage";
@@ -12,8 +13,9 @@ const App = () => {
       <main className="main-content">
         <Routes>
           <Route path="/" element={<ProductListPage />} />
+          <Route path="/products" element={<ProductListPage />} />
           <Route path="/cart" element={<CartPage />} />
-          <Route path="/product/:id" element={<ProductDetailPage />} />{" "}
+          <Route path="/product/:id" element={<ProductDetailPage />} />
         </Routes>
       </main>
     </div>
