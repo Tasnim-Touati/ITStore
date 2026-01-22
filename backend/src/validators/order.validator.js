@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-// Schéma de validation pour un article de commande
+// Schéma pour un article du panier
 const cartItemSchema = Joi.object({
   productId: Joi.number()
     .integer()
@@ -26,7 +26,7 @@ const cartItemSchema = Joi.object({
     }),
 });
 
-// Schéma de validation pour le panier complet
+// Schéma pour le panier complet
 const cartSchema = Joi.array()
   .items(cartItemSchema)
   .min(1)
@@ -41,13 +41,16 @@ const cartSchema = Joi.array()
 
 /**
  * Middleware de validation pour les commandes
+ *  @param {Request} req - Requête Express
+ * @param {Response} res - Réponse Express
+ * @param {Function} next - Fonction pour passer au middleware suivant
  */
 export const validateOrderMiddleware = (req, res, next) => {
   const { cart } = req.body;
 
   const { error, value } = cartSchema.validate(cart, {
-    abortEarly: false, // Retourne toutes les erreurs, pas seulement la première
-    stripUnknown: true, // Supprime les propriétés non définies dans le schéma
+    abortEarly: false, //retourne toutes les erreurs
+    stripUnknown: true, //Supprime automatiquement les champs non autorisés
   });
 
   if (error) {
@@ -57,25 +60,12 @@ export const validateOrderMiddleware = (req, res, next) => {
     }));
 
     return res.status(400).json({
+      success: false,
       message: "Erreur de validation",
       errors,
     });
   }
 
-  // Remplace le cart par la valeur validée et nettoyée
   req.body.cart = value;
   next();
-};
-
-/**
- * Valide les articles d'une commande (fonction utilitaire)
- */
-export const validateOrder = (items) => {
-  const { error } = cartSchema.validate(items);
-  
-  if (error) {
-    throw new Error(error.details[0].message);
-  }
-  
-  return true;
 };

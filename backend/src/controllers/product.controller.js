@@ -5,6 +5,7 @@ import {
 
 /**
  * Récupère tous les produits
+ * Endpoint: GET /api/products
  */
 export const getProducts = (req, res) => {
   try {
@@ -27,22 +28,22 @@ export const getProducts = (req, res) => {
 
 /**
  * Récupère un produit par son ID
+ * Endpoint: GET /api/products/:id
  */
 export const getProductById = (req, res) => {
   try {
     const { id } = req.params;
 
-    // Validation de l'ID
+    // Validation basique de l'ID
     const productId = parseInt(id, 10);
     
     if (isNaN(productId) || productId <= 0) {
       return res.status(400).json({
         success: false,
-        message: "ID de produit invalide. L'ID doit être un nombre positif.",
+        message: "ID de produit invalide",
       });
     }
 
-    // Récupération du produit
     const product = getProductByIdService(productId);
 
     if (!product) {
