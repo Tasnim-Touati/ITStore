@@ -4,11 +4,18 @@ import {
   getProductById,
 } from "../controllers/product.controller.js";
 
-// Crée un routeur Express pour les produits
 const router = express.Router();
 
-// Route pour récupérer tous les produits
+/**
+ * GET /api/products
+ * Récupère la liste complète des produits
+ */
 router.get("/", getProducts);
+
+/**
+ * GET /api/products/:id
+ * Récupère un produit spécifique par son ID
+ */
 router.get("/:id", getProductById);
 
 export default router;

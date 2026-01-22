@@ -1,15 +1,49 @@
-import { products } from "../data/products.js";
+import orders from "../data/orders.js";
 
-export const findAllProducts = () => products;
+/**
+ * Sauvegarde une commande en mémoire
+ * 
+ * @param {Object} order - Objet commande à sauvegarder
+ * @returns {Object} - Commande sauvegardée
+ */
+export const saveOrder = (order) => {
+  orders.push(order);
+  return order;
+};
 
-export const findProductById = (id) =>
-  products.find(p => p.id === id);
+/**
+ * Récupère toutes les commandes
+ * 
+ * @returns {Array} - Liste des commandes
+ */
+export const getAllOrders = () => {
+  return orders;
+};
 
-export const decreaseStock = (id, quantity) => {
-  const product = findProductById(id);
-  if (!product) throw new Error("Produit introuvable");
-  if (product.stock < quantity) throw new Error("Stock insuffisant");
+/**
+ * Recherche une commande par son ID
+ * 
+ * @param {String} orderId - Identifiant de la commande
+ * @returns {Object|undefined} - Commande trouvée ou undefined
+ */
+export const findOrderById = (orderId) => {
+  return orders.find(order => order.orderId === orderId);
+};
 
-  product.stock -= quantity;
-  return product;
+/**
+ * Supprime une commande par son ID
+ * Utile pour les annulations
+ * 
+ * @param {String} orderId - Identifiant de la commande
+ * @returns {Boolean} - true si supprimée, false sinon
+ */
+export const deleteOrder = (orderId) => {
+  const index = orders.findIndex(order => order.orderId === orderId);
+  
+  if (index === -1) {
+    return false;
+  }
+  
+  orders.splice(index, 1);
+  return true;
 };
