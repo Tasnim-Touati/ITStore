@@ -1,6 +1,7 @@
 // src/api/orderApi.js
 import axiosClient from "./axiosClient";
 
+// Previews an order before submission
 export const previewOrder = async (payload) => {
   try {
     const res = await axiosClient.post(`/orders/preview`, payload);
@@ -14,6 +15,7 @@ export const previewOrder = async (payload) => {
   }
 };
 
+// Submits a new order to the backend
 export const submitOrder = async (payload) => {
   try {
     const res = await axiosClient.post(`/orders`, payload);
