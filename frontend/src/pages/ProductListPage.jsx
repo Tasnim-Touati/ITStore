@@ -1,6 +1,7 @@
 // src/pages/ProductListPage.jsx
 import { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
+import axiosClient from "../api/axiosClient";
 import "./ProductListPage.css";
 
 const ProductListPage = () => {
@@ -13,18 +14,13 @@ const ProductListPage = () => {
       setLoading(true);
       setError(null);
 
-      const res = await fetch("http://localhost:3001/api/products");
-      
-      if (!res.ok) {
-        throw new Error(`Erreur HTTP: ${res.status}`);
-      }
-
-      const data = await res.json();
+      const res = await axiosClient.get("/products");
+      const data = res.data;
       console.log("Données reçues de l'API:", data); // DEBUG
 
       // Gère les différents formats de réponse possibles
       let productsArray = [];
-      
+
       if (Array.isArray(data)) {
         // Format direct: [products]
         productsArray = data;
@@ -54,7 +50,7 @@ const ProductListPage = () => {
 
   const onStockUpdate = (updatedProduct) => {
     setProducts((prev) =>
-      prev.map((p) => (p.id === updatedProduct.id ? updatedProduct : p))
+      prev.map((p) => (p.id === updatedProduct.id ? updatedProduct : p)),
     );
   };
 

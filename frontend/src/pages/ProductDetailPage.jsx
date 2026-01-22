@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useCart } from "../hooks/useCart";
+import axiosClient from "../api/axiosClient";
 import toast from "react-hot-toast";
 import "./ProductDetailPage.css";
 
@@ -19,20 +20,17 @@ const ProductDetailPage = () => {
 
     setLoading(true);
     setImageError(false);
-    
-    fetch(`http://localhost:3001/api/products/${id}`)
+
+    axiosClient
+      .get(`/products/${id}`)
       .then((res) => {
-        if (!res.ok) throw new Error("Produit introuvable");
-        return res.json();
-      })
-      .then((data) => {
         // Gère différents formats de réponse
-        const productData = data.data || data;
+        const productData = res.data.data || res.data;
         setProduct(productData);
         setLoading(false);
       })
       .catch((err) => {
-        setError(err.message);
+        setError(err.message || "Produit introuvable");
         setLoading(false);
       });
   }, [id]);
@@ -94,15 +92,19 @@ const ProductDetailPage = () => {
 
       <div className="product-detail-card">
         <div className="product-image-section">
-          <img 
-            src={imageError ? "/assets/placeholder.jpg" : getImageUrl(product.image)} 
+          <img
+            src={
+              imageError
+                ? "/assets/placeholder.jpg"
+                : getImageUrl(product.image)
+            }
             alt={product.name}
             onError={handleImageError}
-            style={{ 
-              width: "100%", 
-              height: "100%", 
+            style={{
+              width: "100%",
+              height: "100%",
               objectFit: "cover",
-              backgroundColor: "#f5f5f5" 
+              backgroundColor: "#f5f5f5",
             }}
           />
 
@@ -180,8 +182,8 @@ const ProductDetailPage = () => {
                 onClick={() => handleRelatedProductClick(relatedProduct.id)}
               >
                 <div className="related-product-image">
-                  <img 
-                    src={getImageUrl(relatedProduct.image)} 
+                  <img
+                    src={getImageUrl(relatedProduct.image)}
                     alt={relatedProduct.name}
                     onError={(e) => {
                       e.target.src = "/assets/placeholder.jpg";
