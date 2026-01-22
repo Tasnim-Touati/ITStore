@@ -1,8 +1,10 @@
 // src/hooks/useProducts.js
 import { useEffect, useState } from "react";
+// useEffect: run code wehn component mounts
+// useState: to store products, loading state, and error message
 import { fetchProducts } from "../api/productApi";
 
-/* Custom hook to fetch products from the API*/
+// Custom hook to fetch products from the API
 export const useProducts = () => {
   const [products, setProducts] = useState([]); // Store fetched products
   const [loading, setLoading] = useState(true); // Track loading state
@@ -12,7 +14,7 @@ export const useProducts = () => {
     // Async function to fetch products
     const loadProducts = async () => {
       try {
-        const data = await fetchProducts(); // Fetch data from API
+        const data = await fetchProducts(); // Fetch data from API, fetchproducts() makes http request
         setProducts(data); // Store in state
       } catch {
         setError("Impossible de charger les produits"); // Show error on failure
