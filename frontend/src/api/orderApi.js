@@ -4,7 +4,7 @@ import axiosClient from "./axiosClient";
 // Previews an order before submission
 export const previewOrder = async (payload) => {
   try {
-    const res = await axiosClient.post(`/orders/preview`, payload);
+    const res = await axiosClient.post(`/orders/preview`, payload); // POST to send data to the server (has body)
     return res.data;
   } catch (error) {
     console.error(
@@ -19,6 +19,7 @@ export const previewOrder = async (payload) => {
 export const submitOrder = async (payload) => {
   try {
     const res = await axiosClient.post(`/orders`, payload);
+
     return res.data;
   } catch (error) {
     console.error(
